@@ -17,6 +17,7 @@ public class SwapNodesInPairs {
         help(c, head); 
         return b;
     }
+	
     public static ListNode help(ListNode a, ListNode prev){
         if(a == null)
             return null;
@@ -53,5 +54,4 @@ public class SwapNodesInPairs {
 		
 		printResult(result);
 	}
-
 }
