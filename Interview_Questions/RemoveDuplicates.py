@@ -40,36 +40,16 @@ from typing import List
 
 
 def removeDuplicates(nums: List[int]):
-    # index and return count
-    index = 0
-    duplicates = 0
-
-    # loop through length of current list
-    # if list length shrinks w/ every duplicate discovered
-    while index < (len(nums) - duplicates):
-
-        # peek variable and duplicate flag
-        recon = 1
-        doubles = False
-
-        # capture count of streak duplicates
-        # don't look beyond (current) end of list
-        while index + recon < len(nums)-duplicates and nums[index] >= nums[index + recon]:
-            recon += 1
-            doubles = True
-        # if flagged
-        if doubles:
-            duplicates += recon - 1
-            i = 1
-            j = index + recon
-            # overwrite list duplicates w/ latter list elements
-            while j < len(nums):
-                nums[index + i] = nums[j]
-                i += 1
-                j += 1
-        # increment loop
-        index += 1
-    return len(nums) - duplicates
+    # 0th element is automatically unique
+    x = 1
+    # loop with range to use i as index
+    for i in range(len(nums)-1):
+        # we only care to find unique values
+        # and promote them to front of list
+        if(nums[i] != nums[i+1]):
+            nums[x] = nums[i+1]
+            x += 1
+    return x
 
 
 # # TEST CASES
@@ -112,3 +92,35 @@ def removeDuplicates(nums: List[int]):
 # while i < idx:
 #     print(l[i])
 #     i += 1
+
+############## initial solution ###############
+# # index and return count
+#     index = 0
+#     duplicates = 0
+
+#     # loop through length of current list
+#     # if list length shrinks w/ every duplicate discovered
+#     while index < (len(nums) - duplicates):
+
+#         # peek variable and duplicate flag
+#         recon = 1
+#         doubles = False
+
+#         # capture count of streak duplicates
+#         # don't look beyond (current) end of list
+#         while index + recon < len(nums)-duplicates and nums[index] >= nums[index + recon]:
+#             recon += 1
+#             doubles = True
+#         # if flagged
+#         if doubles:
+#             duplicates += recon - 1
+#             i = 1
+#             j = index + recon
+#             # overwrite list duplicates w/ latter list elements
+#             while j < len(nums):
+#                 nums[index + i] = nums[j]
+#                 i += 1
+#                 j += 1
+#         # increment loop
+#         index += 1
+#     return len(nums) - duplicates
