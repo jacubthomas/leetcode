@@ -37,24 +37,36 @@ public class StructurallyUniqueBST
     
     public class Solution 
     {
-        public ArrayList<TreeNode> recurseTrees(int start, int end)
+        // helper function
+        public ArrayList<TreeNode> recurseTrees(int head, int tail)
         {
-            if(start > end || start < 1)
-                return null;
+            // structure for return
+            ArrayList <TreeNode> list = new ArrayList<TreeNode>();
 
-            // generate list structure for return
-            List<TreeNode> list = new ArrayList<TreeNode>();
-            for(int i=start; start<=end; i++)
+            // base case
+            if(head>tail)
             {
-                TreeNode node = new TreeNode(i);
-                ArrayList<TreeNode> left = recurseTrees(i-1, start);
-                ArrayList<TreeNode> right = recurseTrees(i+1, end);
-                node.right = right.get(0);
-                node.left = left.get(0);
-                list.add(node);
+                list.add(null);
+            }
+            // loop over entire interval [1,n]
+            for(int i=head; i<=tail; i++)
+            {
+                // break into halved subproblems
+                ArrayList<TreeNode> left = recurseTrees(head, i-1);
+                ArrayList<TreeNode> right = recurseTrees(i+1, tail);
+
+                // assemble returned lists
+                // each list will always be size 1, but none-null-nodes act as roots pointing towards nodes in subtrees
+                for(TreeNode l : left)
+                {
+                    for(TreeNode r : right)
+                    {
+                        TreeNode root = new TreeNode(i, l, r);
+                        list.add(root);
+                    }
+                } 
             }
             return list;
-
         }
         public List<TreeNode> generateTrees(int n) 
         {
@@ -64,37 +76,4 @@ public class StructurallyUniqueBST
 }
 
 
-/*
-if(n >= 1)
-            {
-                // update new chain
-                TreeNode nu_node = new TreeNode(node.val);
-                if(root.left == null && root.right == null)
-                    root = nu_node;
-                else if(root.left.val == node.val)
-                    root.left = nu_node;
-                else if(root.right.val == node.val) 
-                    root.right = nu_node;   
 
-                TreeNode left = new TreeNode(temp_stack.pop());
-                nu_node.left = left;
-                recurseTrees(list, n-1, left, root, temp_stack);
-
-                if(root.val == nu_node.val)
-                    root = node;
-                
-                // node.right = left;
-                // node.left =  null;
-                // recurseTrees(list, n-1, left, root, temp_stack);
-                // temp_stack.push(left.val);
-            }
-            if(n > 1)
-            {
-                TreeNode left = new TreeNode(temp_stack.pop());
-                node.left= left;
-                TreeNode right = new TreeNode(temp_stack.pop());
-                node.right= right;
-                recurseTrees(list, n-2, left, root, temp_stack);
-                recurseTrees(list, n-2, right, root, temp_stack);
-            }
-*/

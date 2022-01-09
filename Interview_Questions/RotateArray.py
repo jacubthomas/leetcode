@@ -30,11 +30,11 @@ from typing import List
 
 
 def rotate(nums: List[int], k) -> None:
+
     if k == 0 or k % len(nums) == 0:
         return
-    while k >= len(nums):
-        print(k)
-        k -= len(nums)
+
+    k %= len(nums)
 
     begin = nums[len(nums)-k:]
     end = nums[:len(nums)-k]
