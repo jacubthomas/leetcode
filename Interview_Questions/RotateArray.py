@@ -30,35 +30,25 @@ from typing import List
 
 
 def rotate(nums: List[int], k) -> None:
-    if k == 0:
+    if k == 0 or k % len(nums) == 0:
         return
     while k >= len(nums):
+        print(k)
         k -= len(nums)
-    end = begin = []
-    for i in range(k):
 
-        # if k+1 == len(nums) and len(nums) % 2 == 1:
-        #     end = nums[:k-1]
-        #     begin = nums[k-1:]
-        # elif k+1 == len(nums) and len(nums) % 2 == 0:
-        #     end = nums[:k-2]
-        #     begin = nums[k-2:]
-        # el
-        if len(nums) % 2 == 1:
-            end = nums[:i+1]
-            begin = nums[i+1:]
-        else:
-            end = nums[:i]
-            begin = nums[i:]
-    j = 0
-    for i in begin:
-        nums[j] = i
-        j += 1
-    for i in end:
-        nums[j] = i
-        j += 1
+    begin = nums[len(nums)-k:]
+    end = nums[:len(nums)-k]
 
+    i = 0
+    if i < len(nums):
+        for j in begin:
+            nums[i] = j
+            i += 1
+        for k in end:
+            nums[i] = k
+            i += 1
 
+# TEST CASES
 # nums = list(range(1, 8))
 # print(nums)
 # rotate(nums, 3)
@@ -93,25 +83,8 @@ def rotate(nums: List[int], k) -> None:
 # print(nums)
 # rotate(nums, 3)
 # print(nums)
+
 # easiest solution, but not an in place modify
 # def rotate(nums: List[int], k):
 #     l = nums[k+1::] + nums[:k+1]
 #     return l
-
-# Solution 2: inefficient for large list
-# def rotate(nums: List[int], k) -> None:
-# length = len(nums)
-# for i in range(k):
-#     j = 0
-#     temp = temp2 = nums[0]
-#     while j+1 < length:
-#         temp2 = nums[j+1]
-#         nums[j+1] = temp
-#         temp = temp2
-#         j += 1
-#     nums[0] = temp
-
-#   0   1   2   3   4   5
-#   1   20  3   7   88  0
-#   i   +1  +2  +3
-#       1   20  3   7   88
