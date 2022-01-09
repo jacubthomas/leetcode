@@ -24,22 +24,31 @@ from typing import List
 
 
 def singleNumber(nums: List[int]) -> int:
-    if len(nums) == 0:
-        return None
-    doubles_check = []
-    for i in range(len(nums)):
-        if nums[i] in doubles_check:
-            doubles_check.remove(nums[i])
-        else:
-            doubles_check.append(nums[i])
-    return doubles_check[0]
+    n = len(nums)
+    r = nums[0]
+    for i in range(1, n):
+        r = r ^ nums[i]
+
+    return r
+
+    # Solution 1
+    # if len(nums) == 0:
+    #     return None
+    # doubles_check = []
+    # for i in range(len(nums)):
+    #     if nums[i] in doubles_check:
+    #         doubles_check.remove(nums[i])
+    #     else:
+    #         doubles_check.append(nums[i])
+    # return doubles_check[0]
 
 
-l = [2, 1, 4, 2, 3, 4, 1]
-print(singleNumber(l))
+# TEST CASES
+# l = [2, 1, 4, 2, 3, 4, 1]
+# print(singleNumber(l))
 
-l = []
-print(singleNumber(l))
+# l = []
+# print(singleNumber(l))
 
-l = [1]
-print(singleNumber(l))
+# l = [1]
+# print(singleNumber(l))
