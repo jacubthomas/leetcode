@@ -5,7 +5,7 @@ import math
 def plusOne(digits: List[int]) -> List[int]:
     i = len(digits)-1
     carry = 1
-    while i >= 0:
+    while i >= 0 and carry > 0:
         digits[i] += carry
         carry = math.floor(digits[i] / 10)
         digits[i] %= 10
