@@ -36,7 +36,7 @@ def maxProfit(prices: List[int]) -> int:
     return total
 
 
-## TEST CASES 
+# # TEST CASES 
 # l = list(range(0, 100))
 # print(maxProfit(l))
 # print(maxProfit([1, 1, 2, 0, 1]))
