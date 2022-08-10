@@ -54,21 +54,41 @@ insert into Seat (id, student) values ('4', 'Green');
 insert into Seat (id, student) values ('5', 'Jeames');
 -- insert into Seat (id, student) values ('6', 'SVEN');
 
-DELIMITER $$
-CREATE PROCEDURE TESTS()
-BEGIN
-	SET @Counter = (SELECT min(id) FROM Seat);
-    SET @TOP = (SELECT max(id) FROM Seat);
-    SET @ODDOREVEN = (SELECT COUNT(*) FROM Seat);
-	SET @ODDOREVEN = IF(@ODDOREVEN % 2 = 0, @TOP, @TOP - 1);
-    WHILE @Counter < @ODDOREVEN  DO
-	SET @NAME1 = (SELECT student FROM Seat WHERE id = (@Counter));
-    SET @NAME2 = (SELECT student FROM Seat WHERE id = (@Counter + 1));
-    UPDATE Seat SET student = @NAME2 WHERE id = @Counter;
-	UPDATE Seat SET student = @NAME1 WHERE id = (@Counter  + 1);
-    SET @Counter := @Counter + 2;
-    END WHILE;
-    SELECT * FROM Seat ORDER BY id ASC;
-END $$
 
-CALL TESTS();
+
+SELECT new_id AS id, student
+FROM
+ ( 
+	SELECT *,  CASE
+		WHEN id = 1 AND size_ > 1 THEN 2
+		WHEN id % 2 = 0 AND size_ % 2 = 0 THEN (SELECT id - 1)
+		WHEN id % 2 = 1 AND size_ % 2 = 0 THEN (SELECT id + 1) 
+		WHEN id % 2 = 0 AND id < size_ AND size_ % 2 = 1 THEN (SELECT id - 1)
+		WHEN id % 2 = 1 AND id < size_ AND size_ % 2 = 1 THEN (SELECT id + 1) 
+		WHEN id = size_ AND size_ % 2 = 1 THEN id
+		END AS new_id
+	FROM Seat
+	JOIN (SELECT COUNT(*) AS size_ FROM Seat) AS SIZE ) AS nested
+    ORDER BY new_id ASC;
+
+
+-------------- THIS SOLUTION WORKS AS WELL, BUT NOT ON LEETCODE
+
+-- DELIMITER $$
+-- CREATE PROCEDURE TESTS()
+-- BEGIN
+-- 	SET @Counter = (SELECT min(id) FROM Seat);
+--     SET @TOP = (SELECT max(id) FROM Seat);
+--     SET @ODDOREVEN = (SELECT COUNT(*) FROM Seat);
+-- 	SET @ODDOREVEN = IF(@ODDOREVEN % 2 = 0, @TOP, @TOP - 1);
+--     WHILE @Counter < @ODDOREVEN  DO
+-- 	SET @NAME1 = (SELECT student FROM Seat WHERE id = (@Counter));
+--     SET @NAME2 = (SELECT student FROM Seat WHERE id = (@Counter + 1));
+--     UPDATE Seat SET student = @NAME2 WHERE id = @Counter;
+-- 	UPDATE Seat SET student = @NAME1 WHERE id = (@Counter  + 1);
+--     SET @Counter := @Counter + 2;
+--     END WHILE;
+--     SELECT * FROM Seat ORDER BY id ASC;
+-- END $$
+
+-- CALL TESTS();
