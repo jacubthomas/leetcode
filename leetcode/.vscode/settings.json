@@ -1,0 +1,15 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "editor.codeActionsOnSave": 
+    {
+        "source.organizeImports": true
+    },  
+    "emeraldwalk.runonsave": {
+        "commands": [
+          {
+            "match": "\\.java$",
+            "cmd": "google-java-format --replace ${file}"
+          },
+        ],
+      }
+}

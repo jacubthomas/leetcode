@@ -1,0 +1,63 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch ArraytoAL",
+            "request": "launch",
+            "mainClass": "ArraytoAL",
+            "projectName": "src_53438626"
+        },
+        {
+            "type": "java",
+            "name": "Launch addTwoNum",
+            "request": "launch",
+            "mainClass": "addTwoNum",
+            "projectName": "src_53438626"
+        },
+        {
+            "type": "java",
+            "name": "Launch google1$Solution",
+            "request": "launch",
+            "mainClass": "google1$Solution",
+            "projectName": "src_53438626"
+        },
+        {
+            "type": "java",
+            "name": "Launch google1_simplified",
+            "request": "launch",
+            "mainClass": "google1_simplified",
+            "projectName": "src_53438626"
+        },
+        {
+            "type": "java",
+            "name": "Launch google2$Solution",
+            "request": "launch",
+            "mainClass": "google2$Solution",
+            "projectName": "src_53438626"
+        },
+        {
+            "type": "java",
+            "name": "Launch medianTwoSorted",
+            "request": "launch",
+            "mainClass": "medianTwoSorted",
+            "projectName": "src_53438626"
+        },
+        {
+            "type": "java",
+            "name": "Launch twoSum",
+            "request": "launch",
+            "mainClass": "twoSum",
+            "projectName": "src_53438626"
+        }
+    ]
+}
