@@ -2,10 +2,7 @@
 
 # Notice that the solution set must not contain duplicate triplets.
 
- 
-
 # Example 1:
-
 # Input: nums = [-1,0,1,2,-1,-4]
 # Output: [[-1,-1,2],[-1,0,1]]
 # Explanation: 
@@ -14,20 +11,18 @@
 # nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
 # The distinct triplets are [-1,0,1] and [-1,-1,2].
 # Notice that the order of the output and the order of the triplets does not matter.
-# Example 2:
 
+# Example 2:
 # Input: nums = [0,1,1]
 # Output: []
 # Explanation: The only possible triplet does not sum up to 0.
-# Example 3:
 
+# Example 3:
 # Input: nums = [0,0,0]
 # Output: [[0,0,0]]
 # Explanation: The only possible triplet sums up to 0.
  
-
 # Constraints:
-
 # 3 <= nums.length <= 3000
 # -105 <= nums[i] <= 105
 
@@ -41,29 +36,39 @@ def threeSum(nums: List[int]) -> List[List[int]]:
 
     # find all 3sums with non-distinct values, i.e. { (0,0,0), (1,1,-2), ...}
     for i in range(0, len(nums)):
+
+        # seen already, skip and save time
         if nums[i] in memoized_set:
             continue
+
+        # 2 contiguous matching values
         elif i < len(nums)-1 and nums[i] == nums[i+1]:
+            # 3 contiguous matching values
             if i < len(nums) - 2 and nums[i] == nums[i+2]:
+                # only case that can sum to 0 for 3 values
                 if nums[i] == 0:
                     three_sums.append([0,0,0])
                     memoized_set.add(nums[i])
+            # 2 matches, need opposite to reach 0
             complement = (nums[i] * (-2))
             if complement in nums and complement != 0:
                 three_sums.append([nums[i], nums[i], complement])
                 memoized_set.add(nums[i])
 
     # find all 3sums with distinct values, i.e. {(2, -5, 3), (-1, 0, 1)}
-    distinct_set = set(nums)
-    distinct_list = list(distinct_set)
-    distinct_list.sort()
+    distinct_set = set(nums)                    # trim repeats
+    distinct_list = list(distinct_set)          # put back in indexable container
+    distinct_list.sort()                        # simplify search
+
+    # Only two loops vs three, O(n^2) vs O(n^3)
     for i in range(0, len(distinct_list)-1):
         for j in range(i+1, len(distinct_list)):
             complement = ((distinct_list[i] + distinct_list[j]) * -(1))
+            # in set O(1), faster than in list O(n)
+            # no values can match, we already found those
             if complement in distinct_set and distinct_list[j] != complement != distinct_list[i]:
                 temp_list = [distinct_list[i], distinct_list[j], complement]
-                temp_list.sort()
-                # if temp_list not in three_sums:
+                temp_list.sort()                # makes matching sets easier to detect later
                 three_sums.append(temp_list)
 
     three_sums.sort()
