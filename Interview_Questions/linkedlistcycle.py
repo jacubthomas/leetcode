@@ -33,8 +33,16 @@ class ListNode:
         self.val = x
         self.next = None
 
-class Solution:
+'''
+Solved with O(1) memory!
+Provided the smallest number a node.val can take on is -10^5, we can mark a
+node as visited by updating its value to below (-10^5)-1. If traversing the
+list, you come across a value smaller than allowed, there is a cycle. 
 
+Additionally, further information could be gleaned if you grow the updates
+to node.values as you traverse in the negative direction. 
+'''
+class Solution:
 
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         if head is None:
@@ -60,28 +68,3 @@ class Solution:
 S = Solution ()
 L1 = ListNode (1)
 print (S.hasCycle(L1))
-
-
-
-# def __init__(self):
-    #     self.seen = set()
-
-# def hasCycle(self, head: Optional[ListNode]) -> bool:
-#     if head is None:
-#         return False
-#     if head.next is not None and head.next.val == head.val:
-#         return True
-
-#     self.seen.add(head)
-#     return self.help(head.next)
-
-# def help (self, node):
-#     if node is None:
-#         return False
-    
-#     self.seen.add(node)
-
-#     if node.next is not None and node.next.val in self.seen:
-#         return True
-    
-#     return self.help(node.next)
