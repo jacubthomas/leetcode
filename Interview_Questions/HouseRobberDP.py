@@ -72,7 +72,3 @@ S3 = Solution()
 S4 = Solution()
 print (S3.rob ([1]))
 print (S4.rob ([1,4]))
-
-
-S5 = Solution()
-print (S5.rob ())
