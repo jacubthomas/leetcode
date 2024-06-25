@@ -57,7 +57,8 @@ class Node:
 
 class DFS:
     def __init__(self):
-        # Convert adjacency list to map for ease of readability
+        # Build out Adjacency Map for ease of readability, marking Nodes as visited
+        # Also, getting those node's neighbors by references
         self.adjacencyMap = dict()
 
     def traverseGraphEntireAndDeepCopy(self, node: Optional['Node']) -> Optional['Node']:
