@@ -9,8 +9,39 @@ class Node:
         self.left = left
         self.right = right
         self.next = next
+                
+class Solution:
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        # Negligible input case where tree is length 0
+        if not root:
+            return root
+        # Build a queue to traverse the tree BFS
+        q = [root]
+        # Traverse tree until queue is empty
+        while len(q) > 0:
+            # We can have up to two levels in queue at once
+            # Tracking size here helps us determine if we're dealing with a rightmost node
+            size = len(q)
+            # Pop nodes from left -> right
+            node = q.pop(0)
+            for i in range(size):
+                if node is root:
+                    node.next = None
+                else:
+                    if i < size - 1:
+                        node.next = q[0]
+                q.append(node.left)
+                q.append(node.right)
 
-class BFS:
+        return root
+
+s = Solution()
+print(s.connect(Node(1, Node(2), Node(3))))
+
+
+
+
+class DFS:
     def traverseTree(self, currentNode: Optional[Node], parentNode: Optional[Node], wentLeft: bool):
         # End of recursion, beyond the tree
         if currentNode is None:
@@ -43,11 +74,11 @@ class BFS:
         self.traverseTree(currentNode.right, currentNode, False)
         self.traverseTree(currentNode.left, currentNode, True)
 
-class Solution:
+class Solution2:
     def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
-        bfs = BFS()
-        bfs.traverseTree(root, None, False)
+        dfs = DFS()
+        dfs.traverseTree(root, None, False)
         return root
-
-s = Solution()
-print(s.connect(Node(1, Node(2), Node(3))))
+    
+s2 = Solution2()
+print(s2.connect(Node(1, Node(2), Node(3))))
