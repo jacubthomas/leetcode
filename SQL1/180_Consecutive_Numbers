@@ -1,0 +1,82 @@
+'''
+Difficulty Medium
+
+Table: Logs
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| num         | varchar |
++-------------+---------+
+In SQL, id is the primary key for this table.
+id is an autoincrement column starting from 1.
+
+Find all numbers that appear at least three times consecutively.
+Return the result table in any order.
+
+The result format is in the following example.
+Example 1:
+Input: 
+Logs table:
++----+-----+
+| id | num |
++----+-----+
+| 1  | 1   |
+| 2  | 1   |
+| 3  | 1   |
+| 4  | 2   |
+| 5  | 1   |
+| 6  | 2   |
+| 7  | 2   |
++----+-----+
+Output: 
++-----------------+
+| ConsecutiveNums |
++-----------------+
+| 1               |
++-----------------+
+Explanation: 1 is the only number that appears consecutively for at least three times.
+'''
+
+-- LEAST PERFORMANT 
+-- FILTERING DONE AFTER CARTESIAN PRODUCT IS GENERATED
+SELECT DISTINCT ThreeWayCartesian.C_NUM AS ConsecutiveNums
+FROM
+(
+    SELECT 
+        a.id as A_ID, 
+        b.id as B_ID, 
+        c.id as C_ID,
+        a.num as A_NUM,
+        b.num as B_NUM,
+        c.num as C_NUM
+    FROM Logs a
+    CROSS JOIN Logs b
+    CROSS JOIN Logs c
+    WHERE a.id+1 = b.id 
+    AND a.id+2 = c.id
+    AND a.num = b.num
+    AND a.num = c.num
+) AS ThreeWayCartesian;
+
+-- MID PERFORMANCE
+-- WHILE THIS USES IMPLICIT JOINS, AND FILTERING OCCURS IN THE WHERE CONDITIONS
+-- A CARTESIAN PRODUCT IS STILL GENERATED
+SELECT DISTINCT
+    l1.Num AS ConsecutiveNums
+FROM
+    Logs l1,
+    Logs l2,
+    Logs l3
+WHERE
+    l1.Id = l2.Id - 1
+    AND l2.Id = l3.Id - 1
+    AND l1.Num = l2.Num
+    AND l2.Num = l3.Num;
+
+-- BEST PERFORMANCE
+-- NO CARTESIAN PRODUCTS GENERATED, FILTERING APPLIED EARLY ON
+SELECT DISTINCT l1.Num AS ConsecutiveNums
+FROM Logs l1
+JOIN Logs l2 ON l1.Id = l2.Id - 1 AND l1.Num = l2.Num
+JOIN Logs l3 ON l2.Id = l3.Id - 1 AND l2.Num = l3.Num;
