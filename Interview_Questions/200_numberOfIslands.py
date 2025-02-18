@@ -37,12 +37,14 @@ class UnionFindSolution:
 
     def __init__(self):
         self.rootMap = {}
+        self.rank = {}
     
     # Map will be used to see connected components
     def initializeUFMap(self, grid: List[List[str]]):
         for row in range(0, len(grid)):
             for col in range(0, len(grid[row])):
                 self.rootMap[(row,col)] = (row,col)
+                self.rank[(row, col)] = 1
 
 
     def detectInbounds(self, coordinate_a: tuple[int, int], grid: List[List[str]]):
@@ -92,7 +94,14 @@ class UnionFindSolution:
 
         # Coordinates are valid with matching geography, ensure they exist under a united root
         if root_a != root_b and self.detectAdjacentCoordinates(coordinate_a, coordinate_b):
-            self.rootMap[root_b] = root_a
+            # using ranks (height of each root) we can be a little more performant
+            if self.rank[root_a] > self.rank[root_b]:
+                self.rootMap[root_b] = root_a
+            elif self.rank[root_a] < self.rank[root_b]:
+                self.rootMap[root_a] = root_b
+            else:
+                self.rootMap[root_b] = root_a
+                self.rank[root_a] += 1
 
     def numIslands(self, grid: List[List[str]]) -> int:
         # Set up connected components map with each coordinate pointing to itself
@@ -116,8 +125,6 @@ class UnionFindSolution:
                     islandSet.add(root)
         return len(islandSet)
     
-
-
 s = Solution()
 
 print(f'number of islands is: {s.numIslands([["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]])}')
