@@ -1,0 +1,31 @@
+class Solution {
+public:
+    //! Sliding window approach
+    long long maximumSubarraySum(vector<int>& nums, int k) {
+        map<int,int> mapState;
+        long long windowSum = 0;
+        long long maxSum = 0;
+        int start = 0;
+
+        for (int end=0; end < nums.size(); end++) {
+            mapState[nums[end]] += 1;
+            windowSum += nums[end];
+
+            while (mapState[nums[end]] > 1 || //! elements are not unique
+                   mapState.size() > k) {     //! window is too big
+                //! Shrink window moving start towards end
+                windowSum -= nums[start];
+                mapState[nums[start]] -= 1;
+                if (mapState[nums[start]] == 0) {
+                    mapState.erase(nums[start]);
+                }
+                start++;
+            }
+
+            //! window is just right size and guaranteed distinct elements
+            if (mapState.size() == k)
+                maxSum = std::max(maxSum, windowSum);
+        }
+        return maxSum;
+    }
+};
